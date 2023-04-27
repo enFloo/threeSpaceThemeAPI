@@ -69,7 +69,7 @@ def delete_theme(id):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute('DELETE FROM Themes WHERE id = {0}'.format(id))
     conn.commit()
-    flash('Student Removed Successfully')
+    flash('Theme Removed Successfully')
     return redirect(url_for('index'))
 
 
