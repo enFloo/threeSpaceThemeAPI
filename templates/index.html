@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="row"><h3>Themes</h3></div>
+<div class="row"><h3>Products</h3></div>
     <div class="row"></div>
         <div class="col-md-4">
             {% with messages = get_flashed_messages()%}
@@ -17,9 +17,9 @@
             {% endif %}
             {% endwith %}
             <div class="card card-body">
-                <form action="{{url_for('add_theme')}}" method="POST">
+                <form action="{{url_for('add_product')}}" method="POST">
                     <div class="from-group">
-                        <input type="text" class="form-control" name="name" placeholder="Theme Name">
+                        <input type="text" class="form-control" name="name" placeholder="Product Name">
                     </div>
                     <div class="from-group">
                         <input type="text" class="form-control" name="thumbnailURL" placeholder="ThumbnailURL">
@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in list_themes %}
+                    {% for row in list_products %}
                     <tr>
                         <td>{{row[0]}}</td>
                         <td>{{row[1]}}</td>

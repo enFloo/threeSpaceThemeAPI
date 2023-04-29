@@ -4,9 +4,9 @@ import psycopg2.extras
 
 
 application = app = Flask(__name__)
-app.secret_key = 'KREk9tUwUe5aVHEuq1jema/g1GlzGd1Rw67h+jty'
+app.secret_key = 'APPSECRET'
 
-DB_HOST = "threespacedb.ccw4zwitwgyp.us-east-1.rds.amazonaws.com"
+DB_HOST = "amazondb.ccw4zwitwgyp.us-east-1.rds.amazonaws.com"
 DB_NAME = "postgres"
 DB_USER = "postgres"
 DB_PASS = "changeme"
@@ -18,11 +18,11 @@ def index():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     s = "SELECT * FROM Themes"
     cur.execute(s)
-    list_themes = cur.fetchall()
-    return render_template('index.html', list_themes = list_themes)
+    list_products = cur.fetchall()
+    return render_template('index.html', list_products = list_products)
 
-@app.route('/add_theme', methods=['POST'])
-def add_theme():
+@app.route('/add_product', methods=['POST'])
+def add_product():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
         name = request.form['name']
@@ -31,11 +31,11 @@ def add_theme():
         category = request.form['category']
         cur.execute("INSERT INTO Themes (name, thumbnailURL, sourceURL, category) VALUES (%s,%s,%s,%s)", (name, thumbnailURL, sourceURL, category))
         conn.commit()
-        flash('Theme Added Successfully')
+        flash('Product Added Successfully')
         return redirect(url_for('index'))
 
 @app.route('/edit/<id>', methods = ['POST', 'GET'])
-def get_theme(id):
+def get_product(id):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     cur.execute('SELECT * FROM Themes WHERE id = %s', (id,))
@@ -45,7 +45,7 @@ def get_theme(id):
     return render_template('edit.html', theme = data[0])
 
 @app.route('/update/<id>', methods=['POST'])
-def update_theme(id):
+def update_product(id):
     if request.method == 'POST':
         name = request.form['name']
         thumbnailurl = request.form['thumbnailurl']
@@ -60,40 +60,40 @@ def update_theme(id):
             category = %s
         WHERE id = %s
         """, (name, thumbnailurl, sourceurl, category, id))
-        flash('Theme Updated Successfully')
+        flash('Product Updated Successfully')
         conn.commit()
         return redirect(url_for('index'))
 
 @app.route('/delete/<string:id>', methods = ['POST', 'GET'])
-def delete_theme(id):
+def delete_product(id):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute('DELETE FROM Themes WHERE id = {0}'.format(id))
     conn.commit()
-    flash('Theme Removed Successfully')
+    flash('Product Removed Successfully')
     return redirect(url_for('index'))
 
 
-@app.route('/allthemes')
-def all_themes():
+@app.route('/allproducts')
+def all_products():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     s = "SELECT * FROM Themes"
     cur.execute(s)
-    list_themes = cur.fetchall()
+    list_products = cur.fetchall()
 
-    return jsonify(list_themes)
+    return jsonify(list_products)
 
         
         
-@app.route('/themes/<int:count>/<int:start>')
-def themes(count, start):
+@app.route('/product/<int:count>/<int:start>')
+def products(count, start):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     s = "SELECT * FROM Themes LIMIT %s OFFSET %s"
     cur.execute(s, (count, start - 1))
-    list_themes = cur.fetchall()
+    list_products = cur.fetchall()
 
-    if not list_themes:
+    if not list_products:
         return jsonify([])
     else:
-        return jsonify(list_themes)
+        return jsonify(list_products)
 
 
