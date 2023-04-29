@@ -1,7 +1,7 @@
 API & GUI hosted in AWS Elastic Beanstalk
 =============
 
-This is an API with two HTTP endpoints that retrieves data & a GUI allowing user to CRUD data from a form to a PostgreSQL database hosted in AWS RDS. Both which were created in an AWS EC2 Amazon Linux 2 instance and deployed to AWS Elastic Beanstalk
+This is an API with two HTTP endpoints that retrieves data & a GUI allowing users to CRUD data to a PostgreSQL database hosted in AWS RDS. Both were created in an AWS EC2 Amazon Linux 2 instance and successfully deployed to AWS Elastic Beanstalk. Python3.8
 
 GUI Reference
 -------------
@@ -67,27 +67,26 @@ Returns JSON data of all products.
 Example:
 
 jsonCopy code
+`
+[
+  {
+    "id": 1,
+    "name": "Product1",
+    "ThumbnailURL": "example.com/product1-thumbnail.png",
+    "SourceURL": "example.com/product1-source.png",
+    "Category": "Category1"
+  },
+  {
+    "id": 2,
+    "name": "Product2",
+    "ThumbnailURL": "example.com/product1-thumbnail.png",
+    "SourceURL": "example.com/product1-source.png",
+    "Category": "Category2"
+  }
+]
+`
 
-`"products": [
-    [
-      "id": 1,
-      "name": "Product1",
-      "ThumbnailURL": "http://example.com/product1-thumbnail.png",
-      "SourceURL": "http://example.com/product1-source.png",
-      "Category": "Categroy1"
-      
-    ],
-    [
-      id": 2,
-      "name": "Product2",
-      "ThumbnailURL": "http://example.com/product2-thumbnail.png",
-      "SourceURL": "http://example.com/product2-source.png",
-      "Category": "Category2"
-    ]
-  ]`
-
-
-#### "GET /product/start/count HTTP/1.1" 200`
+#### "GET /product/count/start HTTP/1.1" 200
 
 Paginates through the data with the amount "count" of elements it'd like returned at start which is 1-indexed and which element it will start at. Returns JSON, returns nothing if count or start are N/A.
 
@@ -104,23 +103,24 @@ Response:
 
 jsonCopy code
 
-`"products": [
-    [
-      "id": 1,
-      "name": "Product1",
-      "ThumbnailURL": "http://example.com/product1-thumbnail.png",
-      "SourceURL": "http://example.com/product1-source.png",
-      "Category": "Categroy1"
-      
-    ],
-    [
-      id": 2,
-      "name": "Product2",
-      "ThumbnailURL": "http://example.com/product2-thumbnail.png",
-      "SourceURL": "http://example.com/product2-source.png",
-      "Category": "Category2"
-    ]
-  ]`
+`
+[
+  {
+    "id": 1,
+    "name": "Product1",
+    "ThumbnailURL": "example.com/product1-thumbnail.png",
+    "SourceURL": "example.com/product1-source.png",
+    "Category": "Category1"
+  },
+  {
+    "id": 2,
+    "name": "Product2",
+    "ThumbnailURL": "example.com/product1-thumbnail.png",
+    "SourceURL": "example.com/product1-source.png",
+    "Category": "Category2"
+  }
+]
+`
 
 If the data is successfully created, the API will return a `200 OK` response with the ID of the new data in the response body. Example:
 
